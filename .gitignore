@@ -1,2 +1,4 @@
 results/*.json
 report.html
+*.csv
+node_modules/
