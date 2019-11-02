@@ -1,7 +1,18 @@
-var fs = require('fs');
-var report = require('./results/all-results.json');
-
+let fs = require('fs');
+let resultsPath = './' + process.argv[2];
+let report = require( resultsPath );
 let reportOutput = [];
+
+
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const csvWriter = createCsvWriter({
+  path: 'axe-report.csv',
+  header: [
+    {id: 'violation', title: 'Violation'},
+    {id: 'url', title: 'URL'},
+    {id: 'items', title: 'Items'},
+  ]
+});
 
 report.forEach( function( entry ) {
 
@@ -27,9 +38,9 @@ report.forEach( function( entry ) {
 
 });
 
-var matchHtmlRegExp = /["'&<>]/
+let matchHtmlRegExp = /["'&<>]/
 
-var escapeHTML = function (string) {
+let escapeHTML = function ( string ) {
 	var str = '' + string
 	var match = matchHtmlRegExp.exec(str)
 
@@ -76,7 +87,17 @@ var escapeHTML = function (string) {
 	  : html
 }
 
-var buildReport = function( reportObj ) {
+let buildCSVReport = function( reportObj ) {
+
+	console.log( reportObj );
+
+	csvWriter
+		.writeRecords( reportObj )
+		.then( ()=> console.log( 'The CSV file was written successfully' ) );
+
+};
+
+let buildHTMLReport = function( reportObj ) {
 
 	let HTML = reportObj.map( function( entry ){
 
@@ -89,9 +110,10 @@ var buildReport = function( reportObj ) {
 				<p><code>${items}</code></p>
 			</div>
 		`;
+
 	});
 
-	HTML = HTML.join('\n');
+	HTML = HTML.join('');
 
 	return `
 		<!doctype html>
@@ -116,9 +138,11 @@ var buildReport = function( reportObj ) {
 
 };
 
-var data = buildReport( reportOutput );
+// Use either buildReportHTML or buildReportCSV to generate different formats
+let data = buildCSVReport( reportOutput );
+let reportName = "test-report.html"
 
-fs.writeFile("test-report.html", data, (err) => {
+fs.writeFile( reportName, data, (err) => {
 	if (err) console.log(err);
-	console.log("Successfully Written to File.");
+	console.log("Report generated at: " + reportName );
 });
