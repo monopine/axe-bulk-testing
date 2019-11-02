@@ -1,0 +1,26 @@
+{
+  "name": "axe-bulk-testing",
+  "version": "1.0.0",
+  "description": "Bulk test with Axe CLI",
+  "main": "axe-report.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monopine/axe-bulk-testing.git"
+  },
+  "keywords": [
+    "a11y",
+    "axe"
+  ],
+  "author": "Brian Meyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/monopine/axe-bulk-testing/issues"
+  },
+  "homepage": "https://github.com/monopine/axe-bulk-testing#readme",
+  "devDependencies": {
+    "csv-writer": "^1.5.0"
+  }
+}
