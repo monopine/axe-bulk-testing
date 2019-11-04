@@ -3,10 +3,12 @@ let resultsPath = './' + process.argv[2];
 let report = require( resultsPath );
 let reportOutput = [];
 
+let outputFile = process.argv[2].split( 'all-results.json' );
+outputFile = outputFile[0] + 'axe-report.csv';
 
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const csvWriter = createCsvWriter({
-  path: 'axe-report.csv',
+  path: outputFile,
   header: [
     {id: 'violation', title: 'Violation'},
     {id: 'url', title: 'URL'},
@@ -89,11 +91,9 @@ let escapeHTML = function ( string ) {
 
 let buildCSVReport = function( reportObj ) {
 
-	console.log( reportObj );
-
 	csvWriter
 		.writeRecords( reportObj )
-		.then( ()=> console.log( 'The CSV file was written successfully' ) );
+		.then( ()=> console.log( 'The CSV file was successfully written to ' + outputFile ) );
 
 };
 
